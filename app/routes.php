@@ -11,12 +11,8 @@
 |
 */
 
-/*Route::get('/', function()
-{
+Route::get('/', function() {
 	return View::make('dashboard');
-});*/
-
-Route::get('/', 'TaxonController@createTable');
+});
 
 Route::post('taxon', 'TaxonController@getFullData');
-Route::get('align', 'TaxonController@align');

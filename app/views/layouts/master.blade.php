@@ -53,17 +53,9 @@
 		@section('sidebar')
 			<div class="container-fluid">
 				<div class="row">
-					<div class="col-sm-3 col-md-2 sidebar">
-						<ul class="nav nav-sidebar">
-							<li class="active"><a href="#"> Search Sequence </a></li>
-							<li><a href="{{url('align')}}"> Align </a></li>
-							<li><a href="#"> Analyze </a></li>
-							<li><a href="#"> Tree View </a></li>
-						</ul>
-					</div>
-					<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+					<div class="col-sm-5 col-sm-offset-3 col-md-6 col-md-offset-2 main">
 						@section('AssemblyLinePart')
-							<h1 class="page-header"> Dashboard </h1>
+							<h1 class="page-header"> Search for a Taxon </h1>
 						@show
 
 						@section('body')

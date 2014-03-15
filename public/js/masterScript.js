@@ -1,3 +1,3 @@
 $(document).ready(function() {
-	$("#taxonTooltip").tooltip();
+	$(document).tooltip();
 });
