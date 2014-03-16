@@ -26,25 +26,13 @@
 			<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 				<div class="container-fluid">
 					<div class="navbar-header">
-						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-							<span class="sr-only"> Toggle Navigation </span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-						</button>
-
 						<a class="navbar-brand" href="{{ URL::to('') }}"> Laravel </a>
 					</div>
 
 					<div class="navbar-collapse collapse">
 						<ul class="nav navbar-nav navbar-right">
-							<li><a href="#"> Home </a></li>
-							<li><a href="#"> Settings </a></li>
-							<li><a href="#"> Help </a></li>
+							<li><a href="{{ URL::to('logout') }}"> Log Out </a></li>
 						</ul>
-						<form class="navbar-form navbar-right">
-							<input type="text" class="form-control" placeholder="Search">
-						</form>
 					</div>
 				</div>
 			</div>
@@ -52,6 +40,11 @@
 
 		@section('sidebar')
 			<div class="container-fluid">
+				<div class="row">
+					<div class="col-sm-3 col-md-4">
+						Hello, {{ Auth::user()->username }}
+					</div>
+				</div>
 				<div class="row">
 					<div class="col-sm-5 col-sm-offset-3 col-md-6 col-md-offset-2 main">
 						@section('AssemblyLinePart')

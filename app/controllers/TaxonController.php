@@ -42,6 +42,7 @@ class TaxonController extends BaseController {
 			$taxon->record_id = $body->record->recordID;
 			$taxon->process_id = $body->record->processid;
 			$taxon->sample_id = $body->record->specimen_identifiers->sampleid;
+			$taxon->field_num = $body->record->specimen_identifiers->fieldnum;
 			$taxon->catalog_num = $body->record->specimen_identifiers->catalognum;
 			$taxon->institution_storing = $body->record->specimen_identifiers->institution_storing;
 			$taxon->phylum_id = $body->record->taxonomy->phylum->taxon->taxID;
@@ -52,6 +53,8 @@ class TaxonController extends BaseController {
 			$taxon->order_name = $body->record->taxonomy->order->taxon->name;
 			$taxon->family_id = $body->record->taxonomy->family->taxon->taxID;
 			$taxon->family_name = $body->record->taxonomy->family->taxon->name;
+			$taxon->subfamily_id = $body->record->taxonomy->subfamily->taxon->taxID;
+			$taxon->subfamily_name = $body->record->taxonomy->subfamily->taxon->name;
 			$taxon->genus_id = $body->record->taxonomy->genus->taxon->taxID;
 			$taxon->genus_name = $body->record->taxonomy->genus->taxon->name;
 			$taxon->species_id = $body->record->taxonomy->species->taxon->taxID;
@@ -70,20 +73,6 @@ class TaxonController extends BaseController {
 		else $data['body'] = null;
 		
 		//return View::make("showDetails", $data);
-	}
-
-	public function createTable() {
-		Schema::create('taxa', function($table) {
-			$table->increments('id');
-			$table->string('username', 32);
-			$table->string('email', 320);
-			$table->string('password', 60);
-			$table->timestamps();
-		});
-	}
-
-	public function align() {
-		return "Align";
 	}
 }
 ?>
