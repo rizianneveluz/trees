@@ -15,8 +15,9 @@ Route::get('login', 'HomeController@getLogin');
 Route::get('register', 'HomeController@getRegister');
 Route::get('/', array('before' => 'auth', 'uses' => 'HomeController@getIndex'));
 Route::get('logout', 'HomeController@getLogout');
+Route::get('sequenceChosen', 'TaxonController@sequenceChosen');
 
 Route::post('login', 'HomeController@postLogin');
 Route::post('register', 'HomeController@postRegister');
-Route::post('taxon', 'TaxonController@getFullData');
+Route::post('taxon', 'TaxonController@postFullData');
 

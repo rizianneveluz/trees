@@ -6,7 +6,8 @@ use Guzzle\Http\Message\Request;
 use Guzzle\Http\Message\Response;
 
 class TaxonController extends BaseController {
-	public function getFullData() {
+	
+	public function postFullData() {
 
 		$query = "/index.php/API_Public/combined?";
 		$first = TRUE;
@@ -29,15 +30,33 @@ class TaxonController extends BaseController {
 		$request = $client->get($query);
 		$response = $request->send();
 		$body = $response->xml();
-		$data['query'] = $query;
 
 		if (isset($body->record)) {
-			$data['body'] = $body;
 
-			$fasta = ">".$body->record->processid . "|" .  $body->record->taxonomy->species->taxon->name . "|" . $body->record->sequences->sequence->markercode . "|" . $body->record->sequences->sequence->genbank_accession . "\n" . $body->record->sequences->sequence->nucleotides;
+			/*$fasta = ">".$body->record->processid . "|" .  $body->record->taxonomy->species->taxon->name . "|" . $body->record->sequences->sequence->markercode . "|" . $body->record->sequences->sequence->genbank_accession . "\n" . $body->record->sequences->sequence->nucleotides;
 			$file = 'M6CC/fasta.fas';
-			file_put_contents($file, $fasta);
+			file_put_contents($file, $fasta);*/
 
+			$taxon['record_id'] = (string) $body->record->recordID;
+			$taxon['institution_storing'] = (string) $body->record->specimen_identifiers->institution_storing;
+			$taxon['collector'] = (string) $body->record->collection_event->collectors;
+			$taxon['collection_country'] = (string) $body->record->collection_event->country;
+			$taxon['phylum'] = (string) $body->record->taxonomy->phylum->taxon->name;
+			$taxon['class'] = (string) $body->record->taxonomy->class->taxon->name;
+			$taxon['order'] = (string) $body->record->taxonomy->order->taxon->name;
+			$taxon['family'] = (string) $body->record->taxonomy->family->taxon->name;
+			$taxon['genus'] = (string) $body->record->taxonomy->genus->taxon->name;
+			$taxon['species'] = (string) $body->record->taxonomy->species->taxon->name;
+			$taxon['marker_code'] = (string) $body->record->sequences->sequence->markercode;
+			$taxon['sequence_last_updated'] = (string) $body->record->sequences->last_updated;
+		}
+		else {
+			$taxon = -1;
+		}
+		return Redirect::to('/')->with('taxon', $taxon);
+	}
+
+	public function storeFullData($body) {
 			$taxon = new Taxon;
 			$taxon->record_id = $body->record->recordID;
 			$taxon->process_id = $body->record->processid;
@@ -69,10 +88,14 @@ class TaxonController extends BaseController {
 			$taxon->sequence_last_updated = $body->record->sequences->last_updated;
 			$taxon->notes = $body->record->sequences->sequence->notes;
 			$taxon->save();
-		}
-		else $data['body'] = null;
-		
-		//return View::make("showDetails", $data);
+
+			return Redirect::to('/');
+	}
+
+	public function sequenceChosen() {
+		$num = Session::get('sequences_num');
+		Session::put('sequences_num', ++$num);
+		return Redirect::to('/');
 	}
 }
 ?>

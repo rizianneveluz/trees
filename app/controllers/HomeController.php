@@ -52,6 +52,7 @@ class HomeController extends BaseController {
 			);
 
 			if (Auth::attempt($credentials)) {
+				Session::put('sequences_num', 0);
 				return Redirect::to('/');
 			}
 			else {

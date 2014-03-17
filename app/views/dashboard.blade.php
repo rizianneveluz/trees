@@ -1,5 +1,10 @@
 @extends('layouts.master')
 
+@section('cssDeclarations')
+	@parent
+		{{ HTML::style('css/custom.css') }}
+@stop
+
 @section('body')
 	<div class="row">
 
@@ -52,28 +57,27 @@
 		{{ Form::close() }}
 
 	</div>
-		
+
 @stop
 
-@if (Session::has('modal_message_error'))
-	<script type="text/javascript">
-	$(document).ready(function() {
-		$('#popupmodal').modal();
-	});
-	</script>
+@section('scripts')
+	@if(Session::has('taxon'))
+		@if(Session::get('taxon') != -1)
+			<div id="dialog-success" title="Search Result">
+				<p>			    
+			    	<?php $taxon = Session::get('taxon'); ?>
 
-	<div id="popupmodal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h3>Notification: Please read</h3>
-        </div>
-        <div class="modal-body">
-            <p>
-                {{ Session::get('modal_message_error') }}
-            </p>
-        </div>
-        <div class="modal-footer">
-            <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-        </div>
-    </div>
-@endif
+			    	@foreach($taxon as $key => $value)
+			    		<strong> {{ ucwords($key) }}: </strong> {{ $value }} <br .>
+			    	@endforeach
+				</p>
+			</div>
+		@else
+			<div id="dialog-fail" title="Search Result">
+				<p>			    
+			    	{{ "No results found. Please try again." }}
+				</p>
+			</div>
+		@endif
+	@endif
+@stop

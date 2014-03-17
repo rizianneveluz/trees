@@ -24,24 +24,18 @@
         <h2 class="form-signin-heading">Please log in</h2>
 
         
-        <!-- If there are errors in the email provided, show them here -->
-        <ul class="errors">
-          @foreach($errors->get('email') as $message)
-            <li>{{ $message }}</li>
+        <!-- If there are errors in the input provided, show them here -->
+        <ul class="list-group">
+          @foreach($errors->all() as $message)
+            <li class="list-group-item list-group-item-danger">{{ $message }}</li>
           @endforeach
         </ul>
 
         {{ Form::email('email', Input::old(''), array('class' => 'form-control', 'placeholder' => 'Email address')) }}
-
-        <!-- If there are errors in the password provided, show them here -->
-        <ul class="errors">
-          @foreach($errors->get('password') as $message)
-              <li>{{ $message }}</li>
-          @endforeach
-        </ul>
-
         {{ Form::password('password', array('class' => 'form-control', 'placeholder' => 'Password')) }}
+
         <input type="submit" class="btn btn-lg btn-primary btn-block" value="Log in">
+        
         <p> Don't have an account? <a href="{{ URL::to('register') }}"> Register here. </a> </p>
       </form>
 

@@ -19,6 +19,7 @@
 			{{ HTML::style('css/dashboard.css') }}
 			{{ HTML::style('css/jquery-ui-1.10.4.custom.min.css') }}
 		@show
+
 	</head>
 
 	<body>
@@ -41,8 +42,11 @@
 		@section('sidebar')
 			<div class="container-fluid">
 				<div class="row">
-					<div class="col-sm-3 col-md-4">
-						Hello, {{ Auth::user()->username }}
+					<div class="col-sm-3 col-md-2 sidebar">
+						<ul class="nav nav-sidebar">
+							<li><a> Hello, {{ Auth::user()->username }} </a></li>
+							<li><a> Chosen sequences: <span class="badge" id="popover" data-placement="bottom" data-content="Sequence added!">{{ Session::get('sequences_num') }}</span> </a></li>
+						</ul>
 					</div>
 				</div>
 				<div class="row">
@@ -64,6 +68,9 @@
 			{{ HTML::script('js/bootstrap.min.js') }}
 			{{ HTML::script('js/jquery-ui-1.10.4.custom.min.js') }}
 			{{ HTML::script('js/masterScript.js') }}
+		@show
+		
+		@section('scripts')
 		@show
 	</body>
 </html>
