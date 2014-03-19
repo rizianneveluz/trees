@@ -6,7 +6,7 @@ use Guzzle\Http\Message\Request;
 use Guzzle\Http\Message\Response;
 
 class TaxonController extends BaseController {
-	
+
 	public function postFullData() {
 
 		$query = "/index.php/API_Public/combined?";
@@ -32,69 +32,75 @@ class TaxonController extends BaseController {
 		$body = $response->xml();
 
 		if (isset($body->record)) {
+			
+			$record = Record::firstOrCreate(array(
+				'id' => (int) $body->record->recordID,
+				'institution_storing' => (string) $body->record->specimen_identifiers->institution_storing,
+				'phylum_name' => (string) $body->record->taxonomy->phylum->taxon->name,
+				'class_name' => (string) $body->record->taxonomy->class->taxon->name,
+				'order_name' => (string) $body->record->taxonomy->order->taxon->name,
+				'family_name' => (string) $body->record->taxonomy->family->taxon->name,
+				//'subfamily_name' => (string) $body->record->taxonomy->subfamily->taxon->name,
+				'genus_name' => (string) $body->record->taxonomy->genus->taxon->name,
+				'species_name' => (string) $body->record->taxonomy->species->taxon->name,
+				'sequence_id' => (int) $body->record->sequences->sequence->sequenceID,
+				'marker_code' => (string) $body->record->sequences->sequence->markercode,
+				'genbank_accession' => (string) $body->record->sequences->sequence->genbank_accession,
+				'nucleotides' => (string) $body->record->sequences->sequence->nucleotides,
+				'nucleotides_last_updated' => (string) $body->record->sequences->sequence->last_updated,
+				'sequence_last_updated' => (string)  $body->record->last_updated,
+				'notes' => (string) $body->record->sequences->sequence->notes,
+				'user_id' => Auth::user(1)->id
+			));
 
-			/*$fasta = ">".$body->record->processid . "|" .  $body->record->taxonomy->species->taxon->name . "|" . $body->record->sequences->sequence->markercode . "|" . $body->record->sequences->sequence->genbank_accession . "\n" . $body->record->sequences->sequence->nucleotides;
+			$collector = Collector::firstOrCreate(array('name' => (string) $body->record->collection_event->collectors, 'record_id' => $record->id));
+
+			$country = Country::firstOrCreate(array('name' => (string) $body->record->collection_event->country, 'record_id' => $record->id));
+
+			$taxonCookie['record_id'] = (string) $body->record->recordID;
+			$taxonCookie['institution_storing'] = (string) $body->record->specimen_identifiers->institution_storing;
+			$taxonCookie['collector'] = (string) $body->record->collection_event->collectors;
+			$taxonCookie['collection_country'] = (string) $body->record->collection_event->country;
+			$taxonCookie['phylum'] = (string) $body->record->taxonomy->phylum->taxon->name;
+			//$taxon['class'] = (string) $body->record->taxonomy->class->taxon->name;
+			$taxonCookie['order'] = (string) $body->record->taxonomy->order->taxon->name;
+			$taxonCookie['family'] = (string) $body->record->taxonomy->family->taxon->name;
+			$taxonCookie['genus'] = (string) $body->record->taxonomy->genus->taxon->name;
+			$taxonCookie['species'] = (string) $body->record->taxonomy->species->taxon->name;
+			$taxonCookie['marker_code'] = (string) $body->record->sequences->sequence->markercode;
+			$taxonCookie['sequence_last_updated'] = (string) $body->record->last_updated;
+
+			$fasta = ">".$body->record->processid . "|" .  $body->record->taxonomy->species->taxon->name . "|" . $body->record->sequences->sequence->markercode . "|" . $body->record->sequences->sequence->genbank_accession . "\n" . $body->record->sequences->sequence->nucleotides;
 			$file = 'M6CC/fasta.fas';
-			file_put_contents($file, $fasta);*/
-
-			$taxon['record_id'] = (string) $body->record->recordID;
-			$taxon['institution_storing'] = (string) $body->record->specimen_identifiers->institution_storing;
-			$taxon['collector'] = (string) $body->record->collection_event->collectors;
-			$taxon['collection_country'] = (string) $body->record->collection_event->country;
-			$taxon['phylum'] = (string) $body->record->taxonomy->phylum->taxon->name;
-			$taxon['class'] = (string) $body->record->taxonomy->class->taxon->name;
-			$taxon['order'] = (string) $body->record->taxonomy->order->taxon->name;
-			$taxon['family'] = (string) $body->record->taxonomy->family->taxon->name;
-			$taxon['genus'] = (string) $body->record->taxonomy->genus->taxon->name;
-			$taxon['species'] = (string) $body->record->taxonomy->species->taxon->name;
-			$taxon['marker_code'] = (string) $body->record->sequences->sequence->markercode;
-			$taxon['sequence_last_updated'] = (string) $body->record->sequences->last_updated;
+			file_put_contents($file, $fasta);
 		}
 		else {
-			$taxon = -1;
+			$taxonCookie = -1;
 		}
-		return Redirect::to('/')->with('taxon', $taxon);
-	}
-
-	public function storeFullData($body) {
-			$taxon = new Taxon;
-			$taxon->record_id = $body->record->recordID;
-			$taxon->process_id = $body->record->processid;
-			$taxon->sample_id = $body->record->specimen_identifiers->sampleid;
-			$taxon->field_num = $body->record->specimen_identifiers->fieldnum;
-			$taxon->catalog_num = $body->record->specimen_identifiers->catalognum;
-			$taxon->institution_storing = $body->record->specimen_identifiers->institution_storing;
-			$taxon->phylum_id = $body->record->taxonomy->phylum->taxon->taxID;
-			$taxon->phylum_name = $body->record->taxonomy->phylum->taxon->name;
-			$taxon->class_id = $body->record->taxonomy->class->taxon->taxID;
-			$taxon->class_name = $body->record->taxonomy->class->taxon->name;
-			$taxon->order_id = $body->record->taxonomy->order->taxon->taxID;
-			$taxon->order_name = $body->record->taxonomy->order->taxon->name;
-			$taxon->family_id = $body->record->taxonomy->family->taxon->taxID;
-			$taxon->family_name = $body->record->taxonomy->family->taxon->name;
-			$taxon->subfamily_id = $body->record->taxonomy->subfamily->taxon->taxID;
-			$taxon->subfamily_name = $body->record->taxonomy->subfamily->taxon->name;
-			$taxon->genus_id = $body->record->taxonomy->genus->taxon->taxID;
-			$taxon->genus_name = $body->record->taxonomy->genus->taxon->name;
-			$taxon->species_id = $body->record->taxonomy->species->taxon->taxID;
-			$taxon->species_name = $body->record->taxonomy->species->taxon->name;
-			$taxon->collector = $body->record->collection_event->collectors;
-			$taxon->collection_country = $body->record->collection_event->country;
-			$taxon->sequence_id = $body->record->sequences->sequence->sequenceID;
-			$taxon->marker_code = $body->record->sequences->sequence->markercode;
-			$taxon->genbank_accession = $body->record->sequences->sequence->genbank_accession;
-			$taxon->nucleotides = $body->record->sequences->sequence->nucleotides;
-			$taxon->nucleotides_last_updated = $body->record->sequences->sequence->last_updated;
-			$taxon->sequence_last_updated = $body->record->sequences->last_updated;
-			$taxon->notes = $body->record->sequences->sequence->notes;
-			$taxon->save();
-
-			return Redirect::to('/');
+		Session::forget('taxon');
+		return Redirect::to('/')->with('taxon', $taxonCookie);
 	}
 
 	public function sequenceChosen() {
 		$num = Session::get('sequences_num');
 		Session::put('sequences_num', ++$num);
+		$taxon = Input::get('taxon');
+		$record_id = $taxon['record_id'];
+		$record = Record::where('id', '=', $record_id)->first();
+		$user_id = Auth::user()->id;
+		$user = User::find($user_id);
+		$record->user()->associate($user);
+		$record->save();
+	}
+
+	public function truncateTables() {
+		Collector::truncate();
+		Country::truncate();
+		Record::truncate();
+		Session::put('sequences_num', 0);
+		Session::forget('taxon');
+		Session::forget('record');
+		Session::forget('record_id');
 		return Redirect::to('/');
 	}
 }

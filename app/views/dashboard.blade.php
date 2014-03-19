@@ -66,6 +66,9 @@
 			<div id="dialog-success" title="Search Result">
 				<p>			    
 			    	<?php $taxon = Session::get('taxon'); ?>
+			    	<script type="text/javascript">
+			    		var taxon = <?php echo json_encode(Session::get('taxon')); ?>;
+			    	</script>
 
 			    	@foreach($taxon as $key => $value)
 			    		<strong> {{ ucwords($key) }}: </strong> {{ $value }} <br .>

@@ -7,12 +7,13 @@ $(document).ready(function() {
         height: "auto",
       	buttons: {
         "Add Sequence": function () {
-            $(this).dialog("close");
+        	$(this).dialog("close");
             $.ajax({
 	        	url: "sequenceChosen",
-	           	type: 'GET',
-	           	//	data: { className: cName },// Your parameter
-	           	async: false,
+	           	type: 'POST',
+	           	data : {
+	           		'taxon' : taxon
+	           	},
 	           	success: function (result) {
 	           		location.reload();
 	                $('#popover').popover('show');

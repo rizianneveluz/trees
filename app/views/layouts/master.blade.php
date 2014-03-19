@@ -44,14 +44,24 @@
 				<div class="row">
 					<div class="col-sm-3 col-md-2 sidebar">
 						<ul class="nav nav-sidebar">
-							<li><a> Hello, {{ Auth::user()->username }} </a></li>
+							<li><a> Hello, {{ Auth::user()->username }}! </a></li>
 							<li><a> Chosen sequences: <span class="badge" id="popover" data-placement="bottom" data-content="Sequence added!">{{ Session::get('sequences_num') }}</span> </a></li>
+							@section('testing_area')
+								<li><a href="{{ URL::to('truncate') }}"> Truncate </a></li>
+							@show
 						</ul>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-sm-5 col-sm-offset-3 col-md-6 col-md-offset-2 main">
 						@section('AssemblyLinePart')
+							<ol class="breadcrumb">
+								@section('breadcrumb')
+									<li class="active"><a href="{{ URL::to('/') }}">Search</a></li>
+									<!--li><a href="{{ URL::to('analyze') }}">Analyze</a></li>
+									<li class="active">Data</li-->
+								@show
+							</ol>
 							<h1 class="page-header"> Search for a Taxon </h1>
 						@show
 
