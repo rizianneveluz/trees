@@ -8,19 +8,19 @@ class Record extends Eloquent {
 		// MASS ASSIGNMENT -------------------------------------------------------
 		// define which attributes are mass assignable (for security)
 		// we only want these 3 attributes able to be filled
-		protected $fillable = array('id', 'institution_storing', 'phylum_name', 'class_name', 'order_name', 'family_name', 'subfamily_name', 'genus_name', 'species_name', 'sequence_id', 'marker_code', 'genbank_accession', 'nucleotides', 'nucleotides_last_updated', 'sequence_last_updated', 'notes', 'user_id');
+		protected $fillable = array('id', 'institution_storing', 'phylum_name', 'class_name', 'order_name', 'family_name', 'subfamily_name', 'genus_name', 'species_name', 'sequence_id', 'marker_code', 'genbank_accession', 'nucleotides', 'nucleotides_last_updated', 'sequence_last_updated', 'notes');
 
 		// DEFINE RELATIONSHIPS --------------------------------------------------
-		public function user() {
-			return $this->belongsTo('User');
+		public function users() {
+			return $this->belongsToMany('User', 'records_users', 'record_id', 'user_id');
 		}
 
 		public function collectors() {
-			return $this->hasMany('Collector');
+			return $this->belongsToMany('Collector', 'collectors_records', 'record_id', 'collector_id');
 		}
 
 		public function countries() {
-			return $this->hasMany('Country');
+			return $this->belongsToMany('Country', 'countries_records', 'record_id', 'country_id');
 		}
 
 }

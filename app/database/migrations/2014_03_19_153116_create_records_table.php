@@ -17,13 +17,13 @@ class CreateRecordsTable extends Migration {
 			$table->integer('id')->unsigned()->unique()->primary();
 
 			$table->string('institution_storing', 255)->nullable();
-			$table->string('phylum_name', 255);
-			$table->string('class_name', 255);
-			$table->string('order_name', 255);
-			$table->string('family_name', 255);
+			$table->string('phylum_name', 255)->nullable();
+			$table->string('class_name', 255)->nullable();
+			$table->string('order_name', 255)->nullable();
+			$table->string('family_name', 255)->nullable();
 			$table->string('subfamily_name', 255)->nullable();
-			$table->string('genus_name', 255);
-			$table->string('species_name', 255);
+			$table->string('genus_name', 255)->nullable();
+			$table->string('species_name', 255)->nullable();
 			$table->integer('sequence_id');
 			$table->string('marker_code', 255);
 			$table->string('genbank_accession', 255)->nullable();
@@ -31,8 +31,8 @@ class CreateRecordsTable extends Migration {
 			$table->string('nucleotides_last_updated', 255)->nullable();
 			$table->string('sequence_last_updated', 255)->nullable();
 			$table->text('notes')->nullable();
-			$table->integer('user_id')->unsigned()->nullable()->default(0);
-			$table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
+			//$table->integer('user_id')->unsigned()->nullable()->default(0);
+			//$table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
 			$table->timestamps();
 		});
 	}

@@ -52,7 +52,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	}
 
 	public function records() {
-		return $this->hasMany('Record');
+		return $this->belongsToMany('Record', 'records_users', 'user_id', 'record_id');
 	}
 
 }

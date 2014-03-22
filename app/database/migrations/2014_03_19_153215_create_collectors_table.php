@@ -17,8 +17,8 @@ class CreateCollectorsTable extends Migration {
 			$table->increments('id');
 
 			$table->string('name', 255);
-			$table->integer('record_id')->unsigned()->default(0);
-			$table->foreign('record_id')->references('id')->on('records')->onUpdate('cascade')->onDelete('cascade');
+			//$table->integer('record_id')->unsigned()->default(0);
+			//$table->foreign('record_id')->references('id')->on('records')->onUpdate('cascade')->onDelete('cascade');
 			
 			$table->timestamps();
 		});

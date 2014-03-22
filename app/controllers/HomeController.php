@@ -27,6 +27,10 @@ class HomeController extends BaseController {
 		return View::make('register');
 	}
 
+	public function getAlign() {
+		return View::make('align');
+	}
+
 	public function postLogin() {
 
 		// get all input values and store them into $input
@@ -98,6 +102,7 @@ class HomeController extends BaseController {
 	public function getLogout() {
 		Auth::logout();
 		Session::flush();
+		DB::table('current')->truncate();
 		return Redirect::to('login');
 	}
 

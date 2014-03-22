@@ -54,14 +54,14 @@
 				</div>
 				<div class="row">
 					<div class="col-sm-5 col-sm-offset-3 col-md-6 col-md-offset-2 main">
-						@section('AssemblyLinePart')
-							<ol class="breadcrumb">
-								@section('breadcrumb')
-									<li class="active"><a href="{{ URL::to('/') }}">Search</a></li>
-									<!--li><a href="{{ URL::to('analyze') }}">Analyze</a></li>
-									<li class="active">Data</li-->
-								@show
-							</ol>
+						<ol class="breadcrumb">
+							@section('breadcrumb')
+								<li class="active"><a href="{{ URL::to('/') }}">Search</a></li>
+								<li><a href="{{ URL::to('align') }}">Align</a></li>
+								<!--li class="active">Data</li-->
+							@show
+						</ol>
+						@section('assemblyLinePart')
 							<h1 class="page-header"> Search for a Taxon </h1>
 						@show
 
