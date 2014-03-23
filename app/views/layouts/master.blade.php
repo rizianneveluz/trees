@@ -18,6 +18,7 @@
 			{{ HTML::style('css/bootstrap-responsive.css') }}
 			{{ HTML::style('css/dashboard.css') }}
 			{{ HTML::style('css/jquery-ui-1.10.4.custom.min.css') }}
+			{{ HTML::style('css/rightSidebar.css') }}
 		@show
 
 	</head>
@@ -42,7 +43,7 @@
 		@section('sidebar')
 			<div class="container-fluid">
 				<div class="row">
-					<div class="col-sm-3 col-md-2 sidebar">
+					<div class="col-md-2 sidebar">
 						<ul class="nav nav-sidebar">
 							<li><a> Hello, {{ Auth::user()->username }}! </a></li>
 							<li><a> Chosen sequences: <span class="badge" id="popover" data-placement="bottom" data-content="Sequence added!">{{ Session::get('sequences_num') }}</span> </a></li>
@@ -51,9 +52,7 @@
 							@show
 						</ul>
 					</div>
-				</div>
-				<div class="row">
-					<div class="col-sm-5 col-sm-offset-3 col-md-6 col-md-offset-2 main">
+					<div class="col-md-7 col-md-offset-2">
 						<ol class="breadcrumb">
 							@section('breadcrumb')
 								<li class="active"><a href="{{ URL::to('/') }}">Search</a></li>
@@ -66,6 +65,10 @@
 						@show
 
 						@section('body')
+						@show
+					</div>
+					<div class="col-md-3" id="rightSidebar">
+						@section('jobResult')
 						@show
 					</div>
 				</div>

@@ -28,7 +28,16 @@ class HomeController extends BaseController {
 	}
 
 	public function getAlign() {
-		return View::make('align');
+		$records = Current::all();
+		if (! $records->isEmpty()) {
+			$fasta = '';
+			foreach($records as $temp) {
+				$record = Record::find($temp->record_id);
+				$fasta = $fasta . ">" . $record->process_id . "|" .  $record->species_name . "|" . $record->marker_code . "|" . $record->genbank_accession . "\n" . $record->nucleotides . "\n";
+			}
+			return View::make('align')->with('fasta', $fasta);
+		}
+		else return View::make('align');
 	}
 
 	public function postLogin() {

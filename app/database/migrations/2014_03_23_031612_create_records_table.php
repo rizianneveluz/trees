@@ -16,6 +16,7 @@ class CreateRecordsTable extends Migration {
 		{
 			$table->integer('id')->unsigned()->unique()->primary();
 
+			$table->string('process_id', 255)->nullable();
 			$table->string('institution_storing', 255)->nullable();
 			$table->string('phylum_name', 255)->nullable();
 			$table->string('class_name', 255)->nullable();
@@ -33,6 +34,7 @@ class CreateRecordsTable extends Migration {
 			$table->text('notes')->nullable();
 			//$table->integer('user_id')->unsigned()->nullable()->default(0);
 			//$table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
+			
 			$table->timestamps();
 		});
 	}

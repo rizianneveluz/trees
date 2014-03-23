@@ -25,6 +25,7 @@ $(document).ready(function() {
         }
     }
     });
+
     $( "#dialog-fail" ).dialog({
     	modal: true,
     	autoResize: true,
@@ -33,5 +34,13 @@ $(document).ready(function() {
              $(this).dialog("close");
         }
     }
+    });
+
+    $("#viewAlignment").click(function() {
+      var w = window.open();
+      var html = $("#dialog-modal").html();
+
+       // how do I write the html to the new window with JQuery?
+        $(w.document.body).html(html);
     });
 });

@@ -35,6 +35,7 @@ class TaxonController extends BaseController {
 			
 			$record = Record::firstOrCreate(array(
 				'id' => (isset($body->record->recordID) ? (string) $body->record->recordID : null),
+				'process_id' => (isset($body->record->processid) ? (string) $body->record->processid : null),
 				'institution_storing' => (isset($body->record->specimen_identifiers->institution_storing) ? (string) $body->record->specimen_identifiers->institution_storing : null),			
 				'phylum_name' => (isset($body->record->taxonomy->phylum->taxon->name) ? (string) $body->record->taxonomy->phylum->taxon->name : null),
 				'class_name' => (isset($body->record->taxonomy->class->taxon->name) ? (string) $body->record->taxonomy->class->taxon->name : null),
@@ -65,6 +66,9 @@ class TaxonController extends BaseController {
 
 			if (isset($body->record->recordID)) {
 				$taxonCookie['record_id'] = (string) $body->record->recordID;
+			}
+			if (isset($body->record->processid)) {
+				$taxonCookie['process_id'] = (string) $body->record->processid;
 			}
 			if (isset($body->record->specimen_identifiers->institution_storing)) {
 				$taxonCookie['institution_storing'] = (string) $body->record->specimen_identifiers->institution_storing;
@@ -102,11 +106,6 @@ class TaxonController extends BaseController {
 			if (isset($body->record->last_updated)) {
 				$taxonCookie['sequence_last_updated'] = (string) $body->record->last_updated;
 			}		
-			
-
-			/*$fasta = ">".$body->record->processid . "|" .  $body->record->taxonomy->species->taxon->name . "|" . $body->record->sequences->sequence->markercode . "|" . $body->record->sequences->sequence->genbank_accession . "\n" . $body->record->sequences->sequence->nucleotides;
-			$file = 'M6CC/fasta.fas';
-			file_put_contents($file, $fasta);*/
 		}
 		else {
 			$taxonCookie = -1;
@@ -134,7 +133,51 @@ class TaxonController extends BaseController {
 	}
 
 	public function postAlign() {
-		$query = "http://www.ebi.ac.uk/Tools/services/rest/clustalo/";
+
+		$url = 'http://www.ebi.ac.uk/Tools/services/rest/clustalo/run';
+		$data = array(
+			'email' => Auth::user()->email,
+			'title' => 'My First Alignment',
+			'outfmt' => 'fa',
+			'sequence' => Input::get('sequences'));
+
+		$options = array(
+		    'http' => array(
+		        'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+		        'method'  => 'POST',
+		        'content' => http_build_query($data),
+		    ),
+		);
+		$context  = stream_context_create($options);
+		$job_id = file_get_contents($url, false, $context);
+
+		/* ---------------------------------------------------- */
+
+		$url = 'http://www.ebi.ac.uk/Tools/services/rest/clustalo/status/' . $job_id;
+
+		$job_status = file_get_contents($url);
+
+		$job_data['job_id'] = $job_id;
+		$job_data['job_status'] = $job_status;
+
+		return Redirect::to('align')->with('job_data', $job_data);
+	}
+
+	public function getJobStatus($job_id) {
+
+			$url = 'http://www.ebi.ac.uk/Tools/services/rest/clustalo/status/' . $job_id;
+
+			$job_status = file_get_contents($url);
+			$job_data['job_status'] = $job_status;
+			$job_data['job_id'] = $job_id;
+
+			if ($job_status == 'FINISHED') {
+				$url = 'http://www.ebi.ac.uk/Tools/services/rest/clustalo/result/' . $job_id . '/aln-fasta';
+
+				$job_data['result'] = file_get_contents($url);
+			}
+
+			return Redirect::to('align')->with('job_data', $job_data);
 	}
 
 	public function truncateTables() {

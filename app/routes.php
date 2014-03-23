@@ -17,6 +17,7 @@ Route::get('/', array('before' => 'auth', 'uses' => 'HomeController@getIndex'));
 Route::get('logout', 'HomeController@getLogout');
 Route::get('truncate', 'TaxonController@truncateTables');
 Route::get('align', 'HomeController@getAlign');
+Route::get('getJobStatus/{jobId}', 'TaxonController@getJobStatus');
 
 Route::post('postAlign', 'TaxonController@postAlign');
 Route::post('sequenceChosen', 'TaxonController@sequenceChosen');

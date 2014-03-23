@@ -8,7 +8,7 @@ class Record extends Eloquent {
 		// MASS ASSIGNMENT -------------------------------------------------------
 		// define which attributes are mass assignable (for security)
 		// we only want these 3 attributes able to be filled
-		protected $fillable = array('id', 'institution_storing', 'phylum_name', 'class_name', 'order_name', 'family_name', 'subfamily_name', 'genus_name', 'species_name', 'sequence_id', 'marker_code', 'genbank_accession', 'nucleotides', 'nucleotides_last_updated', 'sequence_last_updated', 'notes');
+		protected $fillable = array('id', 'process_id', 'institution_storing', 'phylum_name', 'class_name', 'order_name', 'family_name', 'subfamily_name', 'genus_name', 'species_name', 'sequence_id', 'marker_code', 'genbank_accession', 'nucleotides', 'nucleotides_last_updated', 'sequence_last_updated', 'notes');
 
 		// DEFINE RELATIONSHIPS --------------------------------------------------
 		public function users() {
