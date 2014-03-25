@@ -52,12 +52,12 @@
 							@show
 						</ul>
 					</div>
-					<div class="col-md-7 col-md-offset-2">
+					<div class="col-md-6 col-md-offset-3">
 						<ol class="breadcrumb">
 							@section('breadcrumb')
 								<li class="active"><a href="{{ URL::to('/') }}">Search</a></li>
 								<li><a href="{{ URL::to('align') }}">Align</a></li>
-								<!--li class="active">Data</li-->
+								<li><a href="{{ URL::to('analyze') }}">Analyze</a></li>
 							@show
 						</ol>
 						@section('assemblyLinePart')
@@ -65,6 +65,7 @@
 						@show
 
 						@section('body')
+
 						@show
 					</div>
 					<div class="col-md-3" id="rightSidebar">

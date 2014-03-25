@@ -134,7 +134,7 @@ class TaxonController extends BaseController {
 
 	public function postAlign() {
 
-		$url = 'http://www.ebi.ac.uk/Tools/services/rest/clustalo/run';
+		$url = 'http://www.ebi.ac.uk/Tools/services/rest/clustalo/run/';
 		$data = array(
 			'email' => Auth::user()->email,
 			'title' => 'My First Alignment',
@@ -153,31 +153,150 @@ class TaxonController extends BaseController {
 
 		/* ---------------------------------------------------- */
 
-		$url = 'http://www.ebi.ac.uk/Tools/services/rest/clustalo/status/' . $job_id;
+		$url = 'http://www.ebi.ac.uk/Tools/services/rest/clustalo/status/' . rawurlencode($job_id);
 
 		$job_status = file_get_contents($url);
+		$result = '';
 
-		$job_data['job_id'] = $job_id;
-		$job_data['job_status'] = $job_status;
+		if ($job_status == 'FINISHED') {
+			$url = 'http://www.ebi.ac.uk/Tools/services/rest/clustalo/result/' . rawurlencode($job_id) . '/aln-fasta';
 
-		return Redirect::to('align')->with('job_data', $job_data);
+			$result = file_get_contents($url);
+		}
+
+		Session::put('job_data', array('job_id' => $job_id, 'job_status' => $job_status, 'result' => $result));
+
+		return Redirect::to('align');
 	}
 
-	public function getJobStatus($job_id) {
+	public function postJobStatus() {
 
-			$url = 'http://www.ebi.ac.uk/Tools/services/rest/clustalo/status/' . $job_id;
+		$job_data = Session::get('job_data');
+		$job_id = $job_data['job_id'];
 
-			$job_status = file_get_contents($url);
-			$job_data['job_status'] = $job_status;
-			$job_data['job_id'] = $job_id;
+		$url = 'http://www.ebi.ac.uk/Tools/services/rest/clustalo/status/' . rawurlencode($job_id);
 
-			if ($job_status == 'FINISHED') {
-				$url = 'http://www.ebi.ac.uk/Tools/services/rest/clustalo/result/' . $job_id . '/aln-fasta';
+		$job_status = file_get_contents($url);
+		$result = '';
 
-				$job_data['result'] = file_get_contents($url);
+		if ($job_status == 'FINISHED') {
+			$url = 'http://www.ebi.ac.uk/Tools/services/rest/clustalo/result/' . rawurlencode($job_id) . '/aln-fasta';
+
+			$result = file_get_contents($url);
+		}
+		
+		Session::put('job_data', array('job_id' => $job_id, 'job_status' => $job_status, 'result' => $result));
+
+		return Redirect::to('align');
+	}
+
+	public function postAnalyze() {
+
+		$alignment = Input::get('alignment');
+
+		if (Session::has('job_data')) {
+			$job_data = Session::get('job_data');
+			if (isset($job_data['job_id'])) {
+				$job_id = $job_data['job_id'];
 			}
+			else {
+				$job_id = '';
+			}
+			if (isset($job_data['job_status'])) {
+				$job_status = $job_data['job_status'];
+			}
+			else {
+				$job_status = '';
+			}
+		}
 
-			return Redirect::to('align')->with('job_data', $job_data);
+		$url = 'http://www.ebi.ac.uk/Tools/services/rest/clustalw2_phylogeny/run/';
+		$data = array(
+			'email' => Auth::user()->email,
+			'title' => 'Phylogeny',
+			'tree' => 'phylip',
+			'sequence' => $alignment);
+
+		$options = array(
+		    'http' => array(
+		        'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+		        'method'  => 'POST',
+		        'content' => http_build_query($data),
+		    ),
+		);
+		$context  = stream_context_create($options);
+		$phylogeny_job_id = file_get_contents($url, false, $context);
+
+		/* ---------------------------------------------------- */
+
+		$url = 'http://www.ebi.ac.uk/Tools/services/rest/clustalw2_phylogeny/status/' . rawurlencode($phylogeny_job_id);
+
+		$phylogeny_job_status = file_get_contents($url);
+		$tree = '';
+
+		if ($phylogeny_job_status == 'FINISHED') {
+			$url = 'http://www.ebi.ac.uk/Tools/services/rest/clustalw2_phylogeny/result/' . rawurlencode($phylogeny_job_id) . '/tree';
+
+			$tree = file_get_contents($url);
+
+		}
+
+		Session::put('job_data', array('job_id' => $job_id, 'job_status' => $job_status, 'result' => $alignment, 'phylogeny_job_id' => $phylogeny_job_id, 'phylogeny_job_status' => $phylogeny_job_status, 'tree' => $tree));
+
+		return Redirect::to('analyze');
+
+	}
+
+	public function postPhylogenyJobStatus() {
+
+		if (Session::has('job_data')) {
+			$job_data = Session::get('job_data');
+			if (isset($job_data['phylogeny_job_id'])) {
+				$phylogeny_job_id = $job_data['phylogeny_job_id'];
+			}
+			else {
+				$phylogeny_job_id = '';
+			}
+			if (isset($job_data['phylogeny_job_status'])) {
+				$phylogeny_job_status = $job_data['phylogeny_job_status'];
+			}
+			else {
+				$phylogeny_job_status = '';
+			}
+			if (isset($job_data['job_id'])) {
+				$job_id = $job_data['job_id'];
+			}
+			else {
+				$job_id = '';
+			}
+			if (isset($job_data['job_status'])) {
+				$job_status = $job_data['job_status'];
+			}
+			else {
+				$job_status = '';
+			}
+			if (isset($job_data['result'])) {
+				$result = $job_data['result'];
+			}
+			else {
+				$result = '';
+			}
+		}
+
+		$url = 'http://www.ebi.ac.uk/Tools/services/rest/clustalw2_phylogeny/status/' . rawurlencode($phylogeny_job_id);
+
+		$phylogeny_job_status = file_get_contents($url);
+		$tree = '';
+
+		if ($phylogeny_job_status == 'FINISHED') {
+			$url = 'http://www.ebi.ac.uk/Tools/services/rest/clustalw2_phylogeny/result/' . rawurlencode($phylogeny_job_id) . '/tree';
+
+			$tree = file_get_contents($url);
+		}
+		
+		Session::put('job_data', array('job_id' => $job_id, 'job_status' => $job_status, 'result' => $result, 'phylogeny_job_id' => $phylogeny_job_id, 'phylogeny_job_status' => $phylogeny_job_status, 'tree' => $tree));
+
+		return Redirect::to('analyze');
 	}
 
 	public function truncateTables() {

@@ -28,6 +28,10 @@ class HomeController extends BaseController {
 	}
 
 	public function getAlign() {
+		if(!Session::has('job_data')) {
+			Session::put('job_data', array('job_id' => '--', 'job_status' => '--'));
+		}
+
 		$records = Current::all();
 		if (! $records->isEmpty()) {
 			$fasta = '';
@@ -35,9 +39,14 @@ class HomeController extends BaseController {
 				$record = Record::find($temp->record_id);
 				$fasta = $fasta . ">" . $record->process_id . "|" .  $record->species_name . "|" . $record->marker_code . "|" . $record->genbank_accession . "\n" . $record->nucleotides . "\n";
 			}
-			return View::make('align')->with('fasta', $fasta);
+			Session::put('fasta', $fasta);
 		}
-		else return View::make('align');
+		return View::make('align');
+	}
+
+	public function getAnalyze() {
+
+		return View::make('analyze');
 	}
 
 	public function postLogin() {

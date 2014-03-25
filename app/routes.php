@@ -17,8 +17,11 @@ Route::get('/', array('before' => 'auth', 'uses' => 'HomeController@getIndex'));
 Route::get('logout', 'HomeController@getLogout');
 Route::get('truncate', 'TaxonController@truncateTables');
 Route::get('align', 'HomeController@getAlign');
-Route::get('getJobStatus/{jobId}', 'TaxonController@getJobStatus');
+Route::get('analyze', 'HomeController@getAnalyze');
 
+Route::post('postPhylogenyJobStatus', 'TaxonController@postPhylogenyJobStatus');
+Route::post('postAnalyze', 'TaxonController@postAnalyze');
+Route::post('postJobStatus', 'TaxonController@postJobStatus');
 Route::post('postAlign', 'TaxonController@postAlign');
 Route::post('sequenceChosen', 'TaxonController@sequenceChosen');
 Route::post('login', 'HomeController@postLogin');
