@@ -4,6 +4,7 @@
 	<li><a href="{{ URL::to('/') }}">Search</a></li>
 	<li><a href="{{ URL::to('align') }}">Align</a></li>
 	<li class="active"><a href="{{ URL::to('analyze') }}">Analyze</a></li>
+	<li><a href="{{ URL::to('draw') }}">Draw</a></li>
 @stop
 
 @section('assemblyLinePart')

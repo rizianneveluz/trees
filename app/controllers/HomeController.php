@@ -49,6 +49,11 @@ class HomeController extends BaseController {
 		return View::make('analyze');
 	}
 
+	public function getDraw() {
+
+		return View::make('draw');
+	}
+
 	public function postLogin() {
 
 		// get all input values and store them into $input

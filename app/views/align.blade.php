@@ -4,6 +4,7 @@
 	<li><a href="{{ URL::to('/') }}">Search</a></li>
 	<li class="active"><a href="{{ URL::to('align') }}">Align</a></li>
 	<li><a href="{{ URL::to('analyze') }}">Analyze</a></li>
+	<li><a href="{{ URL::to('draw') }}">Draw</a></li>
 @stop
 
 @section('assemblyLinePart')
@@ -76,11 +77,13 @@
 		{{ Form::close() }}
 
 		@if(isset($job_data['result']))
-			<div class="form-group">
-				<button type="button" class="form-control btn btn-info" id="ViewAlignment">View Alignment</button>
-			</div>
-			<div class="form-group">
-				<a href="analyze" class="form-control btn btn-success" id="analyzeButton">Head on to Phylogenetic Analysis</a>
-			</div>
+			@if($job_data['result'] != '--')
+				<div class="form-group">
+					<button type="button" class="form-control btn btn-info" id="ViewAlignment">View Alignment</button>
+				</div>
+				<div class="form-group">
+					<a href="analyze" class="form-control btn btn-success" id="analyzeButton">Head on to Phylogenetic Analysis</a>
+				</div>
+			@endif
 		@endif
 @stop

@@ -21,6 +21,15 @@
 			{{ HTML::style('css/rightSidebar.css') }}
 		@show
 
+		<!-- Dependencies must be loaded first to ensure proper tree rendering -->
+		@section('onLoadScripts')
+			{{ HTML::script('js/raphael-min.js') }}
+			{{ HTML::script('js/jsphylosvg-min.js') }}
+
+			@section('treeScript')
+			@show
+		@show
+
 	</head>
 
 	<body>
@@ -28,7 +37,7 @@
 			<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 				<div class="container-fluid">
 					<div class="navbar-header">
-						<a class="navbar-brand" href="{{ URL::to('') }}"> Laravel </a>
+						<a class="navbar-brand" href="{{ URL::to('') }}"> Building Phylogenetic Trees </a>
 					</div>
 
 					<div class="navbar-collapse collapse">
@@ -58,6 +67,7 @@
 								<li class="active"><a href="{{ URL::to('/') }}">Search</a></li>
 								<li><a href="{{ URL::to('align') }}">Align</a></li>
 								<li><a href="{{ URL::to('analyze') }}">Analyze</a></li>
+								<li><a href="{{ URL::to('draw') }}">Draw</a></li>
 							@show
 						</ol>
 						@section('assemblyLinePart')

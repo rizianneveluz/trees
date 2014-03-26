@@ -18,6 +18,7 @@ Route::get('logout', 'HomeController@getLogout');
 Route::get('truncate', 'TaxonController@truncateTables');
 Route::get('align', 'HomeController@getAlign');
 Route::get('analyze', 'HomeController@getAnalyze');
+Route::get('draw', 'HomeController@getDraw');
 
 Route::post('postPhylogenyJobStatus', 'TaxonController@postPhylogenyJobStatus');
 Route::post('postAnalyze', 'TaxonController@postAnalyze');
