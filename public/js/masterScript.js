@@ -43,4 +43,19 @@ $(document).ready(function() {
        // how do I write the html to the new window with JQuery?
         $(w.document.body).html(html);
     });
+
+    $("#searchForm2").hide();
+
+    $("#useSearchForm").click(function() {
+      $("#searchList").hide(),
+      $("#searchForm2").show()
+    });
+    $("#chooseFromList").click(function() {
+      $("#searchForm2").hide(),
+      $("#searchList").show()
+    });
 });
+
+function viewAlignment() {
+  window.open('viewAlignment', '_blank');
+}

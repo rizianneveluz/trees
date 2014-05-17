@@ -1,5 +1,7 @@
 <?php
 
+set_time_limit(0);
+
 use Guzzle\Http\Client;
 use Guzzle\Http\EntityBody;
 use Guzzle\Http\Message\Request;
@@ -137,14 +139,14 @@ class TaxonController extends BaseController {
 		$url = 'http://www.ebi.ac.uk/Tools/services/rest/clustalo/run/';
 		$data = array(
 			'email' => Auth::user()->email,
-			'title' => 'My First Alignment',
-			'outfmt' => 'fa',
+			'title' => "My First Alignment",
+			'outfmt' => "fa",
 			'sequence' => Input::get('sequences'));
 
 		$options = array(
 		    'http' => array(
 		        'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
-		        'method'  => 'POST',
+		        'method'  => "POST",
 		        'content' => http_build_query($data),
 		    ),
 		);
@@ -213,14 +215,14 @@ class TaxonController extends BaseController {
 		$url = 'http://www.ebi.ac.uk/Tools/services/rest/clustalw2_phylogeny/run/';
 		$data = array(
 			'email' => Auth::user()->email,
-			'title' => 'Phylogeny',
-			'tree' => 'phylip',
+			'title' => "Phylogeny",
+			'tree' => "phylip",
 			'sequence' => $alignment);
 
 		$options = array(
 		    'http' => array(
 		        'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
-		        'method'  => 'POST',
+		        'method'  => "POST",
 		        'content' => http_build_query($data),
 		    ),
 		);
@@ -238,7 +240,8 @@ class TaxonController extends BaseController {
 			$url = 'http://www.ebi.ac.uk/Tools/services/rest/clustalw2_phylogeny/result/' . rawurlencode($phylogeny_job_id) . '/tree';
 
 			$tree = file_get_contents($url);
-
+			$list = array("\n", " ");
+			$tree = str_replace($list, "", $tree);
 		}
 
 		Session::put('job_data', array('job_id' => $job_id, 'job_status' => $job_status, 'result' => $alignment, 'phylogeny_job_id' => $phylogeny_job_id, 'phylogeny_job_status' => $phylogeny_job_status, 'tree' => $tree));
@@ -292,6 +295,8 @@ class TaxonController extends BaseController {
 			$url = 'http://www.ebi.ac.uk/Tools/services/rest/clustalw2_phylogeny/result/' . rawurlencode($phylogeny_job_id) . '/tree';
 
 			$tree = file_get_contents($url);
+			$list = array("\n", " ");
+			$tree = str_replace($list, "", $tree);
 		}
 		
 		Session::put('job_data', array('job_id' => $job_id, 'job_status' => $job_status, 'result' => $result, 'phylogeny_job_id' => $phylogeny_job_id, 'phylogeny_job_status' => $phylogeny_job_status, 'tree' => $tree));

@@ -30,6 +30,10 @@
 			@show
 		@show
 
+		<script type="text/javascript">
+			$("#searchForm2").hide();
+		</script>
+
 	</head>
 
 	<body>
@@ -37,7 +41,7 @@
 			<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 				<div class="container-fluid">
 					<div class="navbar-header">
-						<a class="navbar-brand" href="{{ URL::to('') }}"> Building Phylogenetic Trees </a>
+						<a class="navbar-brand" href="{{ URL::to('') }}"> An Integrated System for Building Phylogenetic Trees </a>
 					</div>
 
 					<div class="navbar-collapse collapse">
@@ -52,17 +56,28 @@
 		@section('sidebar')
 			<div class="container-fluid">
 				<div class="row">
-					<div class="col-md-2 sidebar">
+					<div class="col-md-3 sidebar">
 						<ul class="nav nav-sidebar">
 							<li><a> Hello, {{ Auth::user()->username }}! </a></li>
 							<li><a> Chosen sequences: <span class="badge" id="popover" data-placement="bottom" data-content="Sequence added!">{{ Session::get('sequences_num') }}</span> </a></li>
-							@section('testing_area')
-								<li><a href="{{ URL::to('truncate') }}"> Truncate </a></li>
-							@show
+							<li>
+								<a>
+									<ul>
+										<?php
+											if (Session::has('current')) {
+												$current = Session::get('current');
+												foreach ($current as $temp) {
+													echo "<li> " . $temp . " </li>";
+												}
+											}
+										?>
+									</ul>
+								</a>
+							</li>
 						</ul>
 					</div>
 					<div class="col-md-6 col-md-offset-3">
-						<ol class="breadcrumb">
+						<ol class="breadcrumb text-center">
 							@section('breadcrumb')
 								<li class="active"><a href="{{ URL::to('/') }}">Search</a></li>
 								<li><a href="{{ URL::to('align') }}">Align</a></li>
@@ -71,7 +86,7 @@
 							@show
 						</ol>
 						@section('assemblyLinePart')
-							<h1 class="page-header"> Search for a Taxon </h1>
+							<h1 class="page-header text-center"> Search for Barcode Data </h1>
 						@show
 
 						@section('body')

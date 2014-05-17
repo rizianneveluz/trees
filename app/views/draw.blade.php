@@ -6,19 +6,22 @@
 		if (Session::has('job_data')) {
 			$job_data = Session::get('job_data');
 			if (isset($job_data['tree']) && ($job_data['tree'] != '--')) {
-				$tree = str_replace("\n", "\\n", $job_data['tree']);
+				$tree = $job_data['tree'];
 			}
+			else $tree = '';
 		}
 	?>
 
 	<script type="text/javascript">
 		window.onload = function() {
-			var dataObject = { newick: '(GBMLG16834-13|Fiona:0.15227,CYTC5670-12|Zea:0.20183,GBSP0601-06|Urechis:0.15460);' };
+			var dataObject = { newick: '<?php echo $tree; ?>'};
 			phylocanvas = new Smits.PhyloCanvas(
 			    dataObject,
 			    'svgCanvas',
 			    500, 500
 			);
+
+			var svgSource = phylocanvas.getSvgSource();
 	    };
 	</script>
 @stop
@@ -31,7 +34,7 @@
 @stop
 
 @section('assemblyLinePart')
-	<h1 class="page-header"> Phylogenetic Tree </h1>
+	<h1 class="page-header text-center"> Phylogenetic Tree </h1>
 @stop
 
 @section('body')

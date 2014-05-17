@@ -21,7 +21,7 @@
     <div class="container">
 
       <form class="form-signin" role="form" action="{{ action('HomeController@postLogin') }}" method="post">
-        <h2 class="form-signin-heading">Please log in</h2>
+        <h2 class="form-signin-heading text-center">Please log in</h2>
 
         
         <!-- If there are errors in the input provided, show them here -->
@@ -36,7 +36,7 @@
 
         <input type="submit" class="btn btn-lg btn-primary btn-block" value="Log in">
         
-        <p> Don't have an account? <a href="{{ URL::to('register') }}"> Register here. </a> </p>
+        <p class="text-center"> Don't have an account? <a href="{{ URL::to('register') }}"> Register here. </a> </p>
       </form>
 
     </div>

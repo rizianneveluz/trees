@@ -8,7 +8,7 @@
 @stop
 
 @section('assemblyLinePart')
-	<h1 class="page-header"> Phylogenetic Analysis </h1>
+	<h1 class="page-header text-center"> Analyzing Sequences </h1>
 @stop
 
 @section('body')
@@ -20,7 +20,7 @@
 				$alignment = $job_data['result'];
 			}
 			else {
-				$alignment = '--';
+				$alignment = '';
 			}
 		}
 		else {
@@ -81,12 +81,11 @@
 			</div>
 		{{ Form::close() }}
 
-		@if(isset($job_data['result']))
-			<div class="form-group">
-				<button type="button" class="form-control btn btn-info" id="ViewTree">View Tree</button>
-			</div>
-			<div class="form-group">
-				<a href="draw" class="form-control btn btn-success" id="drawButton">Draw Tree</a>
-			</div>
+		@if(isset($job_data['phylogeny_job_status']))
+			@if($job_data['phylogeny_job_status'] == 'FINISHED')
+				<div class="form-group">
+					<a href="draw" class="form-control btn btn-success" id="drawButton">Draw Tree</a>
+				</div>
+			@endif
 		@endif
 @stop

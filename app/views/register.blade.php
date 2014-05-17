@@ -21,7 +21,7 @@
     <div class="container">
 
       <form class="form-signin" role="form" action="{{ action('HomeController@postRegister') }}" method="post">
-        <h2 class="form-signin-heading">Register</h2>
+        <h2 class="form-signin-heading text-center">Register</h2>
 
         
         <!-- If there are errors in the input provided, show them here -->

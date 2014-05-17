@@ -16,6 +16,13 @@ class HomeController extends BaseController {
 	*/
 
 	public function getIndex() {
+		$records = Current::all();
+		if (!$records->isEmpty()) {
+			foreach ($records as $record) {
+				$current[] = Record::find($record->record_id)->species_name;
+			}
+			Session::put('current', $current);
+		}
 		return View::make('dashboard');
 	}
 
@@ -42,6 +49,10 @@ class HomeController extends BaseController {
 			Session::put('fasta', $fasta);
 		}
 		return View::make('align');
+	}
+
+	public function viewAlignment() {
+		return View::make('viewAlignment');
 	}
 
 	public function getAnalyze() {
@@ -123,9 +134,9 @@ class HomeController extends BaseController {
 	}
 
 	public function getLogout() {
+		DB::table('current')->truncate();
 		Auth::logout();
 		Session::flush();
-		DB::table('current')->truncate();
 		return Redirect::to('login');
 	}
 

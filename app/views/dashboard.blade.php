@@ -8,7 +8,232 @@
 @section('body')
 	<div class="row">
 
-		{{ Form::open(array('id' => 'searchForm', 'url' => 'taxon')) }}
+		<div class="btn-group btn-group-justified">
+			<div class="btn-group">
+				<button type="button" class="btn btn-default" id="chooseFromList">Choose from a List</button>
+			</div>
+			<div class="btn-group">
+				<button type="button" class="btn btn-default" id="useSearchForm">Use a Search Form</button>
+			</div>
+		</div>
+
+		<br />
+
+		<div id="searchList" class="table-responsive">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>Scientific Name</th>
+						<th>Common Name</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>Adenium obesum</td>
+						<td>Desert Rose</td>
+						<td>
+							{{ Form::open(array('url' => 'taxon')) }}
+								<input type="hidden" value="Adenium obesum" name="taxon" id="taxon">
+								<input type="submit" name="submit" value="Add">
+							{{ Form::close() }}
+						</td>
+					</tr>
+					<tr>
+						<td>Adiantum raddianum</td>
+						<td>Delta maidenhair</td>
+						<td>
+							{{ Form::open(array('url' => 'taxon')) }}
+								<input type="hidden" value="Adiantum raddianum" name="taxon" id="taxon">
+								<input type="submit" name="submit" value="Add">
+							{{ Form::close() }}	
+						</td>
+					</tr>
+					<tr>
+						<td>Alpinia purpurata</td>
+						<td>Red ginger</td>
+						<td>
+							{{ Form::open(array('url' => 'taxon')) }}
+								<input type="hidden" value="Alpinia purpurata" name="taxon" id="taxon">
+								<input type="submit" name="submit" value="Add">
+							{{ Form::close() }}	
+						</td>
+					</tr>
+					<tr>
+						<td>Alpinia vittata</td>
+						<td>White-striped ginger</td>
+						<td>
+							{{ Form::open(array('url' => 'taxon')) }}
+								<input type="hidden" value="Alpinia vittata" name="taxon" id="taxon">
+								<input type="submit" name="submit" value="Add">
+							{{ Form::close() }}	
+						</td>
+					</tr>
+					<tr>
+						<td>Atriplex halimus</td>
+						<td>Silver dust</td>
+						<td>
+							{{ Form::open(array('url' => 'taxon')) }}
+								<input type="hidden" value="Atriplex halimus" name="taxon" id="taxon">
+								<input type="submit" name="submit" value="Add">
+							{{ Form::close() }}	
+						</td>
+					</tr>
+					<tr>
+						<td>Beaumontia grandiflora</td>
+						<td>Easter lily vine</td>
+						<td>
+							{{ Form::open(array('url' => 'taxon')) }}
+								<input type="hidden" value="Beaumontia grandiflora" name="taxon" id="taxon">
+								<input type="submit" name="submit" value="Add">
+							{{ Form::close() }}	
+						</td>
+					</tr>
+					<tr>
+						<td>Catharanthus roseus</td>
+						<td>Chichirica</td>
+						<td>
+							{{ Form::open(array('url' => 'taxon')) }}
+								<input type="hidden" value="Catharanthus roseus" name="taxon" id="taxon">
+								<input type="submit" name="submit" value="Add">
+							{{ Form::close() }}	
+						</td>
+					</tr>
+					<tr>
+						<td>Dalea pulchra</td>
+						<td>Bush Dalea</td>
+						<td>
+							{{ Form::open(array('url' => 'taxon')) }}
+								<input type="hidden" value="Dalea pulchra" name="taxon" id="taxon">
+								<input type="submit" name="submit" value="Add">
+							{{ Form::close() }}	
+						</td>
+					</tr>
+					<tr>
+						<td>Ephedra nevadensis</td>
+						<td>Desert Tea</td>
+						<td>
+							{{ Form::open(array('url' => 'taxon')) }}
+								<input type="hidden" value="Ephedra nevadensis" name="taxon" id="taxon">
+								<input type="submit" name="submit" value="Add">
+							{{ Form::close() }}	
+						</td>
+					</tr>
+					<tr>
+						<td>Hedychium coronarium</td>
+						<td>Kamia</td>
+						<td>
+							{{ Form::open(array('url' => 'taxon')) }}
+								<input type="hidden" value="Hedychium coronarium" name="taxon" id="taxon">
+								<input type="submit" name="submit" value="Add">
+							{{ Form::close() }}	
+						</td>
+					</tr>
+					<tr>
+						<td>Impatiens walleriana</td>
+						<td>Busy Lizzies</td>
+						<td>
+							{{ Form::open(array('url' => 'taxon')) }}
+								<input type="hidden" value="Impatiens walleriana" name="taxon" id="taxon">
+								<input type="submit" name="submit" value="Add">
+							{{ Form::close() }}	
+						</td>
+					</tr>
+					<tr>
+						<td>Licuala grandis</td>
+						<td>Ruffled fan palm</td>
+						<td>
+							{{ Form::open(array('url' => 'taxon')) }}
+								<input type="hidden" value="Licuala grandis" name="taxon" id="taxon">
+								<input type="submit" name="submit" value="Add">
+							{{ Form::close() }}	
+						</td>
+					</tr>
+					<tr>
+						<td>Magnolia coco</td>
+						<td>Chinese magnolia</td>
+						<td>
+							{{ Form::open(array('url' => 'taxon')) }}
+								<input type="hidden" value="Magnolia coco" name="taxon" id="taxon">
+								<input type="submit" name="submit" value="Add">
+							{{ Form::close() }}	
+						</td>
+					</tr>
+					<tr>
+						<td>Ophiopogon japonicus</td>
+						<td>Black grass</td>
+						<td>
+							{{ Form::open(array('url' => 'taxon')) }}
+								<input type="hidden" value="Ophiopogon japonicus" name="taxon" id="taxon">
+								<input type="submit" name="submit" value="Add">
+							{{ Form::close() }}	
+						</td>
+					</tr>
+					<tr>
+						<td>Pentas lanceolata</td>
+						<td>Star cluster</td>
+						<td>
+							{{ Form::open(array('url' => 'taxon')) }}
+								<input type="hidden" value="Pentas lanceolata" name="taxon" id="taxon">
+								<input type="submit" name="submit" value="Add">
+							{{ Form::close() }}	
+						</td>
+					</tr>
+					<tr>
+						<td>Solandra grandiflora</td>
+						<td>Cup of gold</td>
+						<td>
+							{{ Form::open(array('url' => 'taxon')) }}
+								<input type="hidden" value="Solandra grandiflora" name="taxon" id="taxon">
+								<input type="submit" name="submit" value="Add">
+							{{ Form::close() }}	
+						</td>
+					</tr>
+					<tr>
+						<td>Spathoglottis plicata</td>
+						<td>Philippine Ground Orchid</td>
+						<td>
+							{{ Form::open(array('url' => 'taxon')) }}
+								<input type="hidden" value="Spathoglottis plicata" name="taxon" id="taxon">
+								<input type="submit" name="submit" value="Add">
+							{{ Form::close() }}	
+						</td>
+					</tr>
+					<tr>
+						<td>Tacca chantrieri</td>
+						<td>Bat plant</td>
+						<td>
+							{{ Form::open(array('url' => 'taxon')) }}
+								<input type="hidden" value="Tacca chantrieri" name="taxon" id="taxon">
+								<input type="submit" name="submit" value="Add">
+							{{ Form::close() }}	
+						</td>
+					</tr>
+					<tr>
+						<td>Wrightia religiosa</td>
+						<td>Sui mei</td>
+						<td>
+							{{ Form::open(array('url' => 'taxon')) }}
+								<input type="hidden" value="Wrightia religiosa" name="taxon" id="taxon">
+								<input type="submit" name="submit" value="Add">
+							{{ Form::close() }}	
+						</td>
+					</tr>
+					<tr>
+						<td>Zea Mays</td>
+						<td>Corn</td>
+						<td>
+							{{ Form::open(array('url' => 'taxon')) }}
+								<input type="hidden" value="Zea Mays" name="taxon" id="taxon">
+								<input type="submit" name="submit" value="Add">
+							{{ Form::close() }}	
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		{{ Form::open(array('id' => 'searchForm searchForm2', 'url' => 'taxon')) }}
 			<div class="form-group">
 				{{ Form::label('taxon', 'Taxon') }}
 				{{ Form::text('taxon', Input::old(''), array('class' => 'form-control', 'id' => 'taxon', 'placeholder' => 'e.g. Aves', 'title' => "Taxa includes the ranks of phylum, class, order, family, subfamily, genus, and species.

@@ -8,7 +8,7 @@
 @stop
 
 @section('assemblyLinePart')
-	<h1 class="page-header"> Multiple Sequence Alignment </h1>
+	<h1 class="page-header text-center"> Aligning Sequences </h1>
 @stop
 
 @section('body')
@@ -76,10 +76,10 @@
 			</div>
 		{{ Form::close() }}
 
-		@if(isset($job_data['result']))
-			@if($job_data['result'] != '--')
+		@if(isset($job_data['job_status']))
+			@if($job_data['job_status'] == 'FINISHED')
 				<div class="form-group">
-					<button type="button" class="form-control btn btn-info" id="ViewAlignment">View Alignment</button>
+					<button type="button" class="form-control btn btn-info" id="ViewAlignment" onclick="viewAlignment()">View Alignment</button>
 				</div>
 				<div class="form-group">
 					<a href="analyze" class="form-control btn btn-success" id="analyzeButton">Head on to Phylogenetic Analysis</a>
